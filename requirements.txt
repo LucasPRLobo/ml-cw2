@@ -7,3 +7,5 @@ matplotlib
 scipy
 jupyter
 tqdm
+umap-learn
+seaborn

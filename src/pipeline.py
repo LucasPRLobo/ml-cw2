@@ -1,22 +1,25 @@
 import numpy as np
-from src.preprocessing import preprocess_identity, preprocess_pca
+from src.preprocessing import preprocess_identity, preprocess_pca, preprocess_umap
 from src.typicality import compute_typicality
-from src.clustering import cluster_standard
-from src.selection import select_max_typicality
+from src.clustering import cluster_overclustering, cluster_standard
+from src.selection import select_max_typicality, select_hybrid
 from src.evaluation import evaluate_selection
 
 # Registry of available components
 PREPROCESSORS = {
     'none': preprocess_identity,
     'pca': preprocess_pca,
+    'umap': preprocess_umap,
 }
 
 CLUSTERERS = {
     'standard': cluster_standard,
+    'overclustering': cluster_overclustering,
 }
 
 SELECTORS = {
     'max_typicality': select_max_typicality,
+    'select_hybrid': select_hybrid,
 }
 
 
@@ -47,12 +50,17 @@ def run_pipeline(embeddings, labels, test_embeddings, test_labels, config):
 
     # 3. Cluster
     cluster_fn = CLUSTERERS[config.get('cluster', 'standard')]
-    cluster_labels = cluster_fn(proc_embeddings, budget=budget, random_state=rs, **config)
+
+    
+    cluster_labels = cluster_fn(proc_embeddings, budget=budget, random_state=rs, **{
+        k: v for k, v in config.items() if k not in ('budget', 'random_state', 'preprocess', 'cluster', 'selection', 'k_typicality')
+    })
+
 
     # 4. Select
     select_fn = SELECTORS[config.get('selection', 'max_typicality')]
     selected_indices = select_fn(
-        proc_embeddings, typicality, cluster_labels, budget=budget, **config
+        proc_embeddings, typicality, cluster_labels, **config
     )
 
     # 5. Evaluate (use preprocessed embeddings for consistency)

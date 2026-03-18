@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Data & models
+notebooks/data/
+*.pth
+*.pkl
+
+# IDE & tools
+.vscode/
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Drafts & planning
+notebooks/draft/
+MODIFICATION_RESEARCH.md
+PROJECT_REFERENCE.md
+
+# Research papers (not our work)
+chen20j.pdf
+Hacohen2022.pdf
+
+# Report drafts (keep final only)
+report/report_draft*.pdf
