@@ -32,6 +32,7 @@ def extract_embeddings(encoder, dataloader, device='cuda'):
         for images, labels in dataloader:
             images = images.to(device)
             h = encoder(images)
+            h = torch.nn.functional.normalize(h, dim=1)  # L2 normalize (paper: F.1)
             all_embeddings.append(h.cpu().numpy())
             all_labels.append(labels.numpy())
     return np.vstack(all_embeddings), np.hstack(all_labels)

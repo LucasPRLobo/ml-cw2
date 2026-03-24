@@ -3,10 +3,8 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Data & models
+# Data (large, downloadable)
 notebooks/data/
-*.pth
-*.pkl
 
 # IDE & tools
 .vscode/
@@ -20,6 +18,8 @@ Thumbs.db
 notebooks/draft/
 MODIFICATION_RESEARCH.md
 PROJECT_REFERENCE.md
+RESULTS_ANALYSIS.md
+IMPLEMENTATION_VS_PAPER.md
 
 # Research papers (not our work)
 chen20j.pdf
@@ -27,3 +27,10 @@ Hacohen2022.pdf
 
 # Report drafts (keep final only)
 report/report_draft*.pdf
+
+# Old encoder (replaced by 500ep version)
+notebooks/simclr_encoder_200ep.pth
+
+# Script (notebooks are the primary interface)
+notebooks/run_all.sh
+notebooks/run_all.log
